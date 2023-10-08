@@ -33,9 +33,11 @@ logger.setLevel(logging.DEBUG)
 
 
 #
-DOCK3_EXECUTABLE_PATH = os.path.join(
-    os.path.dirname(DOCKING_INIT_FILE_PATH), "dock3", "dock64"
-)
+# DOCK3_EXECUTABLE_PATH = os.path.join(
+    # os.path.dirname(DOCKING_INIT_FILE_PATH), "dock3", "dock64"
+# )
+DOCK3_EXECUTABLE_PATH = os.environ["DOCK3_EXECUTABLE_PATH"]
+
 
 #
 SCHEDULER_NAME_TO_CLASS_DICT = {

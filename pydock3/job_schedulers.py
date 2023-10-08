@@ -99,7 +99,8 @@ class SlurmJobScheduler(JobScheduler):
 
             curr_tasks_array_indices_str = ",".join([str(x) for x in curr_tasks_array_indices + [index_str]])
             if(len(curr_tasks_array_indices_str) >= max_chars_in_tasks_array_str) or (i == num_sets - 1):
-                command_str = f"{self.SBATCH_EXEC} --export=ALL -J {job_name} -o {log_dir_path}/{job_name}_%A_%a.out -e {log_dir_path}/{job_name}_%A_%a.err --signal=B:USR1@120 {extra_submission_cmd_params_str} --array={curr_tasks_array_indices_str}"  # TODO: is `signal` useful / necessary?
+                command_str = f"{self.SBATCH_EXEC} --export=ALL -J {job_name} -o {log_dir_path}/{job_name}_%A_%a.out -e {log_dir_path}/{job_name}_%A_%a.err {extra_submission_cmd_params_str} --array={curr_tasks_array_indices_str}"  # TODO: is `signal` useful / necessary?
+                # command_str = f"{self.SBATCH_EXEC} --export=ALL -J {job_name} -o {log_dir_path}/{job_name}_%A_%a.out -e {log_dir_path}/{job_name}_%A_%a.err --signal=B:USR1@120 {extra_submission_cmd_params_str} --array={curr_tasks_array_indices_str}"  # TODO: is `signal` useful / necessary?
                 curr_tasks_array_indices = []
             else:
                 continue
@@ -122,7 +123,7 @@ class SlurmJobScheduler(JobScheduler):
 
     def job_is_on_queue(self, job_name: str) -> bool:
         command_str = f"{self.SQUEUE_EXEC} --format='%i %j %t' | grep '{job_name}'"
-        proc = system_call(command_str)
+        proc = system_call(command_str) # system_call is subprocess.run()
 
         #
         if proc.stdout:

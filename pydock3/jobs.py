@@ -13,9 +13,7 @@ from pydock3.job_schedulers import JobScheduler
 
 from pydock3.docking import __file__ as DOCKING_INIT_FILE_PATH
 
-DOCK3_EXECUTABLE_PATH = os.path.join(
-    os.path.dirname(DOCKING_INIT_FILE_PATH), "dock3", "dock64"
-)
+DOCK3_EXECUTABLE_PATH = os.environ["DOCK3_EXECUTABLE_PATH"]
 DOCK_RUN_SCRIPT_PATH = os.path.join(
     os.path.dirname(DOCKING_INIT_FILE_PATH), "rundock.bash"
 )

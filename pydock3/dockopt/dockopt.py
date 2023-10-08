@@ -62,8 +62,6 @@ from pydock3.retrodock.retrospective_dataset import RetrospectiveDataset
 
 #
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
 
 #
 SCHEDULER_NAME_TO_CLASS_DICT = {
@@ -127,7 +125,7 @@ class Dockopt(Script):
 
         # check if job dir already exists
         if os.path.exists(job_dir_path):
-            logger.info(f"Job directory `{job_dir_path}` already exists. Exiting.")
+            logger.info(f"Job directory `{job_dir_path}` already exists. Skipping `new`.")
             return
 
         # create job dir
@@ -280,7 +278,7 @@ class Dockopt(Script):
         #
         proper_blaster_file_names = list(BLASTER_FILE_IDENTIFIER_TO_PROPER_BLASTER_FILE_NAME_DICT.values())
         blaster_files_to_copy_in = [
-            os.path.abspath(f) for f in proper_blaster_file_names if os.path.isfile(f)
+            os.path.join(job_dir_path, f) for f in proper_blaster_file_names if os.path.isfile(os.path.join(job_dir_path, f))
         ]
 
         #
@@ -872,7 +870,7 @@ class DockoptStep(PipelineComponent):
 
                 #
                 datetime_now = datetime.now()
-                if datetime_now < (datetime_queue_was_last_checked + timedelta(seconds=MIN_SECONDS_BETWEEN_QUEUE_CHECKS)):
+                if datetime_now < (datetime_queue_was_last_checked + timedelta(seconds=MIN_SECONDS_BETWEEN_QUEUE_CHECKS)): # 2s check once? too short!
                     docking_configurations_processing_queue.append(docking_configuration)  # move to back of queue
                     continue  # move on to next in queue in order to more efficiently use time between queue checks
 
@@ -1277,13 +1275,14 @@ class DockoptStep(PipelineComponent):
                     DockoptStep._run_unrun_steps_needed_to_create_this_blaster_file_node(
                         parent_node, g
                     )
-                a_parent_node = list(g.predecessors(blaster_file_node))[0]
-                step_instance = g[a_parent_node][blaster_file_node]["step_instance"]
-                if step_instance.is_done:
-                    raise Exception(
-                        f"blaster file {blaster_file.path} does not exist but step instance is_done=True"
-                    )
-                step_instance.run()
+                if list(g.predecessors(blaster_file_node)): # die otherwise
+                    a_parent_node = list(g.predecessors(blaster_file_node))[0]
+                    step_instance = g[a_parent_node][blaster_file_node]["step_instance"]
+                    if step_instance.is_done:
+                        raise Exception(
+                            f"blaster file {blaster_file.path} does not exist but step instance is_done=True"
+                        )
+                    step_instance.run() # I think this step should generate dedicated files
 
 
 class DockoptStepSequenceIteration(PipelineComponentSequenceIteration):
@@ -1591,7 +1590,7 @@ class DockoptPipeline(Pipeline):
                 'blaster_files_to_copy_in': self.blaster_files_to_copy_in,  # TODO: is this necessary?
                 'last_component_completed': last_component_completed_in_sequence,
             }, component_class)
-            component = component_class(**kwargs)
+            component = component_class(**kwargs) # In class DockoptStep __init__, several files will be copied from /data/git-repo/pydock3/pydock3/blastermaster/defaults
             component.run(
                 component_run_func_arg_set,
                 force_redock=force_redock,
