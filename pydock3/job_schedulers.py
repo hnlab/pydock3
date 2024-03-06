@@ -14,9 +14,7 @@ from pydock3.util import system_call, find_key_values_in_dict
 from pydock3.files import File
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
+logger = logging.getLogger("dockopt")
 
 class JobScheduler(ABC):
     REQUIRED_ENV_VAR_NAMES = []

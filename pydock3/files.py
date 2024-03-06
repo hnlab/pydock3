@@ -21,8 +21,7 @@ from pydock3.util import validate_variable_type, system_call
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 
 #

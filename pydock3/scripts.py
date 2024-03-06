@@ -6,8 +6,7 @@ import fire
 from pydock3.util import get_logger_for_script, Script
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 SCRIPT_CLASSES = [  # script classes are those that inherit from the Script class defined in this module
     "Blastermaster",

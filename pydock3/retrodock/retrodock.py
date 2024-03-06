@@ -29,8 +29,7 @@ from pydock3.docking import __file__ as DOCKING_INIT_FILE_PATH
 
 #
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
+print("retrodock",__name__)
 
 #
 # DOCK3_EXECUTABLE_PATH = os.path.join(

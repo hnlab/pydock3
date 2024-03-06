@@ -18,8 +18,7 @@ if TYPE_CHECKING:
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 
 def add_sorting_of_results_dataframe_by_criterion_to_write_results_method(_cls: object) -> object:

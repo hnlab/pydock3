@@ -20,9 +20,7 @@ DOCK_RUN_SCRIPT_PATH = os.path.join(
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
+logger = logging.getLogger("dockopt")
 
 #
 OUTDOCK_FILE_NAME = "OUTDOCK.0"

@@ -13,8 +13,7 @@ from operator import getitem
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 #
 logging_formatter = logging.Formatter(

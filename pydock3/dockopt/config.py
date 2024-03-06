@@ -14,8 +14,7 @@ DOCKOPT_CONFIG_SCHEMA_FILE_PATH = os.path.join(
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 
 class DockoptParametersConfiguration(ParametersConfiguration):

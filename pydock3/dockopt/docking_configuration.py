@@ -13,8 +13,7 @@ from pydock3.dockopt.util import WORKING_DIR_NAME
 from pydock3.jobs import DOCK3_EXECUTABLE_PATH
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 
 #

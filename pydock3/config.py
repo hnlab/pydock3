@@ -9,8 +9,7 @@ from pydock3.util import get_hexdigest_of_persistent_md5_hash_of_tuple
 
 
 #
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger("dockopt")
 
 
 class Parameter(object):
